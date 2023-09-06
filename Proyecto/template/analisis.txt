@@ -1,0 +1,62 @@
+debemos hacer analsis sobre:
+1 5 topping mas vendidos
+2.
+
+
+
+@app.route('/delete_usuario/<identificacion>', methods=['POST'])
+def delete_usuario(identificacion):
+    cur = mysql.connection.cursor()
+    cur.execute('DELETE FROM usuario WHERE identificacion_usuario = %s', (identificacion,))
+    mysql.connection.commit()
+    rows_deleted = cur.rowcount
+    cur.close()
+    if rows_deleted > 0:
+        return jsonify({"status": "success", "message": "Usuario eliminado con éxito!"})
+    else:
+        return jsonify({"status": "error", "message": "Error al eliminar el usuario."})
+
+@app.route('/get_usuario/<identificacion>', methods=['GET'])
+def get_usuario(identificacion):
+    cur = mysql.connection.cursor()
+    cur.execute('SELECT * FROM usuario WHERE identificacion_usuario = %s', (identificacion,))
+    usuario = cur.fetchone()
+    cur.close()
+    if usuario:
+        return jsonify(usuario)
+    else:
+        return jsonify({"message": "Usuario no encontrado"}), 404
+
+
+
+
+
+
+function addProductRow() {
+    // Crear el contenedor de la fila
+    const productRow = document.createElement('div');
+    productRow.className = 'productRow';
+
+    // Crear el campo de entrada para el ID del producto
+    const productInput = document.createElement('input');
+    productInput.type = 'number';
+    productInput.className = 'productID';
+    productInput.placeholder = 'Ingrese ID del producto';
+
+    // Crear el botón para buscar el producto
+    const searchButton = document.createElement('button');
+    searchButton.innerText = 'Buscar';
+    searchButton.onclick = function() {
+        searchProduct(this);
+    };
+
+    // Agregar el campo de entrada y el botón al contenedor de la fila
+    productRow.appendChild(productInput);
+    productRow.appendChild(searchButton);
+
+    // Agregar la fila al contenedor principal
+    document.getElementById('productSelection').appendChild(productRow);
+}
+
+// Llamar a la función cuando se cambie el tipo de producto
+document.getElementById('tipo').addEventListener('change', showProductFields);

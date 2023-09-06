@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Mascota</title>
+    <!-- Enlace a Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Registro de Mascota</h1>
+
+    {% if mensaje %} 
+        <div class="alert alert-info" role="alert" id="dynamicAlert">
+            {{ mensaje }}           
+        </div>
+    {% endif %}
+
+    <div class="container-fluid p-2">
+        <a href="/admin_dashboard" class="btn btn-secondary">Ir a Dashboard</a>
+    </div>
+
+    <form action="/agregar_mascota_admin" method="post">
+        <!-- Datos del cliente -->
+        <div class="form-group">
+            <label for="id_cliente">ID del Cliente:</label>
+            <input type="number" id="id_cliente" name="id_cliente" class="form-control" required>
+        </div>
+
+        <!-- Datos de la mascota -->
+        <div class="form-group">
+            <label for="nombre_mascota">Nombre de la Mascota:</label>
+            <input type="text" id="nombre_mascota" name="nombre_mascota" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+            <label for="color_mascota">Color de la Mascota:</label>
+            <input type="text" id="color_mascota" name="color_mascota" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+            <label for="fecha_nacimiento_mascota">Fecha de Nacimiento:</label>
+            <input type="date" id="fecha_nacimiento_mascota" name="fecha_nacimiento_mascota" class="form-control" required>
+        </div>
+
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary">Registrar Mascota</button>
+        </div>
+    </form>
+</div>
+
+<!-- Scripts de Bootstrap y jQuery (opcional pero recomendado para algunas funcionalidades de Bootstrap) -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>
