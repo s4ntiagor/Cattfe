@@ -1,3 +1,105 @@
+create database catffe;
+use catffe;
+
+CREATE TABLE cliente (
+		identificacion_cliente BIGINT PRIMARY KEY NOT NULL,
+        nombre_cliente VARCHAR(30) NOT NULL,
+        apellido_cliente VARCHAR(30) NOT NULL,
+        email_cliente VARCHAR(80) NOT NULL UNIQUE,
+        telefono_cliente VARCHAR(12) NOT NULL,
+        fecha_nacimiento_cliente DATE
+);
+
+CREATE TABLE rol (
+        id_rol INT PRIMARY KEY AUTO_INCREMENT,
+        nombre_rol VARCHAR(30) NOT NULL
+);
+
+INSERT INTO rol (id_rol, nombre_rol)
+VALUES 
+(1, 'Administrador'),
+(2, 'Trabajador');
+
+
+CREATE TABLE usuario (
+		identificacion_usuario BIGINT PRIMARY KEY NOT NULL,
+        nombre_rol INT NOT NULL,
+        nombre_usuario VARCHAR(30) NOT NULL,
+        apellido_usuario VARCHAR(30) NOT NULL,
+        contrasena VARCHAR(100) NOT NULL,
+        FOREIGN KEY (nombre_rol) REFERENCES rol(id_rol)
+);
+
+INSERT INTO usuario (identificacion_usuario, nombre_rol, nombre_usuario, apellido_usuario, contrasena)
+VALUES 
+(123456, 1, 'Juan', 'Perez', 'mi_contraseña_segura1'), 
+(789123, 2, 'Maria', 'Gonzalez', 'mi_contraseña_segura2');
+
+
+CREATE TABLE mascota (
+		id_mascota INT AUTO_INCREMENT,
+		nombre_mascota VARCHAR(30) NOT NULL,
+		color_mascota VARCHAR(30) NOT NULL,
+		fecha_nacimiento_mascota DATE,
+		id_cliente BIGINT NOT NULL,
+		PRIMARY KEY (id_mascota),
+		FOREIGN KEY (id_cliente) REFERENCES cliente(identificacion_cliente)
+);
+
+CREATE TABLE productos (
+		id_producto INT PRIMARY KEY,
+		nombre_producto VARCHAR(50) NOT NULL,
+		precio_producto INT(6) NOT NULL,
+		descripcion_producto VARCHAR(100) NOT NULL,
+		tipo ENUM ("cafe", "bebida", "libro", "topping") NOT NULL,
+		disponibilidad INT NULL,
+		tipo_leche ENUM ("leche descremada", "leche entera", "leche deslactosada") NULL,
+		denominacion_origen VARCHAR(50) NULL,
+		peso INT NULL,
+		genero VARCHAR(20) NULL,
+		autor VARCHAR(30) NULL
+);
+
+CREATE TABLE combo (
+		id_combo INT,
+		nombre_combo VARCHAR(40) NOT NULL,
+		descripcion_combo VARCHAR(100) NOT NULL,
+		precio_combo DECIMAL(10, 2) NOT NULL,
+		PRIMARY KEY (id_combo)
+);
+
+CREATE TABLE combinacion (
+		id_combinacion INT AUTO_INCREMENT,
+		id_combo INT NOT NULL,
+		id_producto INT NOT NULL,
+		PRIMARY KEY (id_combinacion),
+		FOREIGN KEY (id_combo) REFERENCES combo(id_combo),
+		FOREIGN KEY (id_producto) REFERENCES productos(id_producto)
+);
+
+CREATE TABLE venta (
+		id_venta INT AUTO_INCREMENT PRIMARY KEY,
+		fecha_hora DATETIME,
+		id_cliente BIGINT NOT NULL,
+		id_usuario BIGINT NOT NULL,
+		FOREIGN KEY (id_cliente) REFERENCES cliente(identificacion_cliente),
+		FOREIGN KEY (id_usuario) REFERENCES usuario(identificacion_usuario)
+);
+
+CREATE TABLE detalle_de_venta (
+		id_deta_venta INT AUTO_INCREMENT PRIMARY KEY,
+		cantidad INT NOT NULL,
+		id_producto INT NULL,
+		id_combo INT NULL,
+		id_venta INT NOT NULL,
+        precio_unitario DECIMAL(10,2) NOT NULL,
+        FOREIGN KEY (id_producto) REFERENCES productos(id_producto),
+        FOREIGN KEY (id_combo) REFERENCES combo(id_combo),
+        FOREIGN KEY (id_venta) REFERENCES venta(id_venta)
+);
+
+-- INSERCIÓN DE DATOS
+
 insert into cliente (identificacion_cliente, nombre_cliente, apellido_cliente, email_cliente, telefono_cliente, fecha_nacimiento_cliente) values ('3536984968181695', 'Ferdinand', 'Eastwell', 'feastwell0@topsy.com', '206-533-4789', '1997-02-20');
 insert into cliente (identificacion_cliente, nombre_cliente, apellido_cliente, email_cliente, telefono_cliente, fecha_nacimiento_cliente) values ('4936997361452893680', 'Andrei', 'Woolner', 'awoolner1@deliciousdays.com', '880-778-4141', '2001-09-07');
 insert into cliente (identificacion_cliente, nombre_cliente, apellido_cliente, email_cliente, telefono_cliente, fecha_nacimiento_cliente) values ('675970024238076785', 'Olivia', 'Bonde', 'obonde2@go.com', '558-323-3364', '2000-04-05');
