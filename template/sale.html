@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facturación - Tienda de Café</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .header-image {
+            width: 100%; /* Ajusta la imagen al ancho del contenedor */
+            height: auto; /* Mantiene la proporción de la imagen */
+        }
+    </style>
+</head>
+<body>
+
+<img src="{{ url_for('static', filename='foto-gatitos.jpg') }}" alt="Encabezado" class="header-image">
+
+<div class="container mt-5">
+
+    <a href="{{ url_for('logout') }}" class="btn btn-danger btn-logout">Logout</a>
+
+    <h1 class="text-center mb-4">Facturación - Tienda de Café</h1>
+
+    {% if mensaje %}
+    <div class="alert alert-success">
+        {{ mensaje }}
+    </div>
+    {% endif %}
+
+
+    <!-- Botón para ir a la página de registro -->
+    <div class="mb-4 text-right">
+        <a href="/register" class="btn btn-secondary">Registrar Nuevo Cliente</a>
+    </div>
+
+    <form action="/process_sale" method="post" class="bg-light p-4 rounded">
+
+        <!-- Sección para buscar cliente por identificación -->
+        <div class="form-group">
+            <label for="identificacion_cliente">Identificación del Cliente:</label>
+            <input type="text" id="identificacion_cliente" name="identificacion_cliente" class="form-control" placeholder="Ingrese identificación del cliente">
+            <!-- Asegúrate de que este botón no sea de tipo "submit" -->
+            <button type="button" id="btnBuscarCliente">Buscar Cliente</button>
+            <div id="clienteDetallesV"></div>
+        </div>
+
+        <!-- Sección para agregar productos -->
+        <h2 class="mt-4 mb-3">Productos</h2>
+        <div class="form-group">
+            <label for="product_id">ID del Producto:</label>
+            <input type="text" id="product_id" class="form-control" placeholder="Ingrese ID del producto">
+            <button type="button" id="btnBuscarProducto">Buscar Producto</button>
+            <div id="productDetails"></div>
+        </div>
+
+        <!-- Sección de descuentos -->
+        <div class="form-group">
+            <label for="discount">Descuento:</label>
+            <select name="descuento" id="discount" class="form-control" onchange="calculateTotal()">
+                <option value="0">Sin descuento</option>
+                <option value="0.05">5% descuento</option>
+                <option value="0.10">10% descuento</option>
+                <option value="0.15">15% descuento</option>
+            </select>
+        </div>
+
+        <!-- Sección de combos -->
+        <div class="form-group">
+            <label for="combo">Combos:</label>
+            <select name="combo" id="combo" class="form-control" onchange="addComboToTable()">
+                <!-- Aquí se agregarán dinámicamente las opciones de combos desde la base de datos -->
+            </select>
+        </div>
+
+        <!-- Tabla de productos y combos seleccionados -->
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Descripción</th>
+                    <th>Precio</th>
+                    <th>Cantidad</th>
+                    <th>Subtotal</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="selectedProductsTable">
+                <!-- Aquí se agregarán dinámicamente los productos y combos seleccionados -->
+            </tbody>
+        </table>
+
+        <!-- Sección de total -->
+        <div class="form-group">
+            <label>Total:</label>
+            <span id="totalAmount">$0.00</span>
+        </div>
+        
+
+        <!-- Botón para enviar el formulario -->
+        <button type="submit" class="btn btn-primary">Procesar Venta</button>
+    </form>
+</div>
+
+<script src="\static\scripts.js"></script>
+
+</body>
+</html>

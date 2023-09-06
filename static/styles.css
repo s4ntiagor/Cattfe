@@ -1,0 +1,18 @@
+.caja {
+    margin: 10%;
+    margin-left: 30%;
+    margin-right: 30%;
+}
+
+/* Estilo para posicionar el botón de logout en la esquina superior derecha */
+.btn-logout {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.header-image {
+    .small-image {
+        width: -500%;
+        height: -500%;
+    }   }
